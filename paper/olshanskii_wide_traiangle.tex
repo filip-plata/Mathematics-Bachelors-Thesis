@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+
+\tkzSetUpPoint[fill=black]
+\tkzDefPoint(1, 0){C}
+\tkzDefPoint(13,0){B}
+\tkzDefPoint(13,3){A}
+
+\tkzDefPoint(6,0){O}
+\tkzDefPoint(3,0){D}
+\tkzDefPoint(9,0){E}
+
+\tkzDefBarycentricPoint(C=7,A=3)
+\tkzGetPoint{G}
+\tkzDefBarycentricPoint(C=2,A=5)
+\tkzGetPoint{F}
+
+\draw (C) -- (B) -- (A) -- (C);
+\draw[fill=gray!30] (D) -- (G) -- (F) -- (E);
+
+\tkzDrawPoints(A, B, C, O, D, E, G, F)
+
+\tkzLabelPoints[below](B, C, O, D, E)
+\tkzLabelPoints[above](A, G, F)
+
+\end{tikzpicture}

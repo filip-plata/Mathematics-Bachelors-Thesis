@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+
+\tkzSetUpPoint[fill=black]
+\tkzDefPoint(2, 4){O}
+\tkzDefPoint(0.5,6){A_1}
+\tkzDefPoint(5,2){A_2}
+\tkzDefPoint(9.5,-1){A_3}
+\tkzDefPoint(11,5){A_4}
+\tkzDefPoint(8.75,8){A_5}
+\tkzDefPoint(4.7,5){A_6}
+\tkzDefPoint(7.55,2){A_7}
+
+
+\tkzDrawPoints(O, A_1, A_2, A_3, A_4, A_5, A_6, A_7)
+\draw [thick, ->] (O) edge node[above] {a} (A_2) (A_2) edge node[below] {b} (A_7) (A_6) edge node[above] {a} (A_7) (O) edge node[above] {b} (A_6);
+
+\draw [thick, ->] (A_6) edge node[left] {b} (A_5) (A_7) edge node[above] {b} (A_4) (A_5) edge node[above] {a} (A_4);
+
+\draw [thick, ->] (A_7) edge node[above] {a} (A_3) (A_3) edge node[below] {a} (A_2);
+\draw [thick, ->] (A_6) edge node[above] {a} (A_1) (A_1) edge node[left] {a} (O);
+
+
+\tkzLabelPoints[below](O, A_2, A_3)
+\tkzLabelPoints[right](A_4)
+\tkzLabelPoints[above](A_1, A_6, A_5, A_7)
+
+\end{tikzpicture}

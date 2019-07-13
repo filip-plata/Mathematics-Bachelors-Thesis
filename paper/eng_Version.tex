@@ -1,0 +1,480 @@
+%
+% Niniejszy plik stanowi przykład formatowania pracy magisterskiej na
+% Wydziale MIM UW.  Szkielet użytych poleceń można wykorzystywać do
+% woli, np. formatujac wlasna prace.
+%
+% Zawartosc merytoryczna stanowi oryginalnosiagniecie
+% naukowosciowe Marcina Wolinskiego.  Wszelkie prawa zastrzeżone.
+%
+% Copyright (c) 2001 by Marcin Woliński <M.Wolinski@gust.org.pl>
+% Poprawki spowodowane zmianami przepisów - Marcin Szczuka, 1.10.2004
+% Poprawki spowodowane zmianami przepisow i ujednolicenie 
+% - Seweryn Karłowicz, 05.05.2006
+% Dodanie wielu autorów i tłumaczenia na angielski - Kuba Pochrybniak, 29.11.2016
+
+% dodaj opcję [licencjacka] dla pracy licencjackiej
+% dodaj opcję [en] dla wersji angielskiej (mogą być obie: [licencjacka,en])
+\documentclass[licencjacka]{pracamgr}
+\usepackage{amsfonts}
+\usepackage{datetime}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{lipsum}
+
+\newcommand{\defeq}{\vcentcolon=}
+
+
+% Dane magistranta:
+\autor{Filip Plata}{371335}
+
+
+% Dane magistrantów:
+%\autor{Autor Zerowy}{342007}
+%\autori{Autor Pierwszy}{342013}
+%\autorii{Drugi Autor-Z-Rzędu}{231023}
+%\autoriii{Trzeci z Autorów}{777321}
+%\autoriv{Autor nr Cztery}{432145}
+%\autorv{Autor nr Pięć}{342011}
+
+\title{Problem słów, prezentacje Dehna i zbiór isoperymetryczny}
+
+
+%\tytulang{An implementation of a difference blabalizer based on the theory of $\sigma$ -- $\rho$ phetors}
+
+%kierunek: 
+% - matematyka, informacyka, ...
+% - Mathematics, Computer Science, ...
+\kierunek{matematyka}
+
+% informatyka - nie okreslamy zakresu (opcja zakomentowana)
+% matematyka - zakres moze pozostac nieokreslony,
+% a jesli ma byc okreslony dla pracy mgr,
+% to przyjmuje jedna z wartosci:
+% {metod matematycznych w finansach}
+% {metod matematycznych w ubezpieczeniach}
+% {matematyki stosowanej}
+% {nauczania matematyki}
+% Dla pracy licencjackiej mamy natomiast
+% mozliwosc wpisania takiej wartosci zakresu:
+% {Jednoczesnych Studiow Ekonomiczno--Matematycznych}
+
+% \zakres{Tu wpisac, jesli trzeba, jedna z opcji podanych wyzej}
+
+% Praca wykonana pod kierunkiem:
+% (podać tytuł/stopień imię i nazwisko opiekuna
+% Instytut
+% ew. Wydział ew. Uczelnia (jeżeli nie MIM UW))
+\opiekun{prof. dr. hab. Sławomir Nowak}
+
+% miesiąc i~rok:
+\date{Maj 2019}
+
+%Podać dziedzinę wg klasyfikacji Socrates-Erasmus:
+\dziedzina{ 
+%11.0 Matematyka, Informatyka:\\ 
+11.1 Matematyka\\ 
+%11.2 Statystyka\\ 
+%11.3 Informatyka\\ 
+%11.4 Sztuczna inteligencja\\ 
+%11.5 Nauki aktuarialne\\
+%11.9 Inne nauki matematyczne i informatyczne
+}
+
+%Klasyfikacja tematyczna wedlug AMS (matematyka) lub ACM (informatyka)
+\klasyfikacja{D. Software\\
+  D.127. Blabalgorithms\\
+  D.127.6. Numerical blabalysis}
+
+% Słowa kluczowe:
+\keywords{Prezentacja Dehna, problem słów, zbiór isoperymetryczny}
+
+% Tu jest dobre miejsce na Twoje własne makra i~środowiska:
+\newtheorem{defi}{Definicja}[section]
+\newtheorem{exampl}{Przykład}[section]
+\newtheorem{ther}{Twierdzenie}[section]
+\newtheorem{lemma}{Lemat}[section]
+
+% koniec definicji
+
+\begin{document}
+
+\maketitle
+
+%tu idzie streszczenie na strone poczatkowa
+\begin{abstract}
+
+Zebranie i prezentacja klasycznych wyników z dziedziny problemu słów i geometrii hiperbolicznej. Zawiera przetłumaczony i uzupełniony dowód twierdzenia o istnieniu przerwy isoperymetrycznej, na podstawie pracy \cite{bib:subquadratic_isoperimetric_inequality}.
+
+\end{abstract}
+
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+
+\chapter*{Wstęp}
+\addcontentsline{toc}{chapter}{Wstęp}
+
+Word problem is a problem naturally arising in computer science. Given two words and a set of words called relators, we want to algorithmically decide whether we can obtain one word from another by inserting relators at any position we choose, after reducing subwords of type $u^{-1}u$.
+
+We shall start with introducing basic definitions concerning the word problem. This task will be divided in two parts: definitions from group theory, and definitions from Gromov's theory of hyperbolicity. After introduction of basic concepts, we will present a proof that only Gromov hyperbolic groups have a linear Dehn function, and that no group has a subquadratic but not linear Dehn function. This fact is called an \textit{isoperimetric gap}. Then we shall present some known facts about the so called \textit{isoperimetric set}, which connects in some way group theory and computational complexity theory.
+
+\chapter{Teoria grup a problem słów}\label{r:concepts}
+
+\section{Definicje}
+
+We shall begin by introducing some notions from group theory.
+
+\begin{defi}\label{free group}
+Given an alphabet A, we call a set $F_A$ consisting of all words over A, which do not contain subwords of type $uu^{-1}\ or \ u^{-1}u, \ for \ u \in A$, along with concatenation as operation and empty word as identity element a \emph{free group}. We call members of A \textit{generators} of $F_A$.
+\end{defi}
+
+\begin{exampl}\label{free group}
+A basic example of free group would be a group generated by one letter: $\{ a^{n} \mid n \in \mathbb{Z} \}$. It is easy to see that it is homomorphic to $\mathbb{Z}$.
+\end{exampl}
+
+Free groups do not capture all groups. But this idea can be extended to presentation of groups - ie. we take a free group and a set of relations. Then we can look at equivalence sets, with two words equivalent if and only if we can obtain one from another after inserting any number of relators. One can show then, that every group has a presentation.
+
+\begin{defi}\label{presentation of group}
+prezentacja grup
+\end{defi}
+
+\begin{defi}\label{Algebraic area}
+Let $P = <A \mid R>$ be a presentation of a group, and a word w be equivalent to $\epsilon$. We define algebraic area of w:
+\[ A(w) \defeq \min \{ N : w = \prod_{i=1}^{N} x_{i}^{-1}r_{i}x_{i}, \  x_{i} \in F_{A}, r_{i} \in R^{\pm 1} \} \]
+\end{defi}
+
+We now can define Dehn function of a given presentation of a group.
+
+\begin{defi}\label{Dehn function}
+Let $P = <A \mid R>$ be a presentation of a group G, we define
+
+\[ D_{P}(n) \defeq \max \{ A(w) : w \in G, \ \mid w \mid \leq n \} \]
+
+\end{defi}
+
+A valid question is whether Dehn function depends on a presentation. This is why we will consider Dehn functions up to some equivalence relation.
+
+\begin{defi}\label{order relation}
+
+Given two functions $f, g : [0, \infty) \rightarrow [0, \infty) $ we say that $f \preceq g$ if there exists $C \ge 0$
+
+\[ \forall x \in [0, \infty) \  f(x) \leq C g(Cx+C) + Cx + C  \]
+
+\end{defi}
+
+
+\begin{defi}\label{equivalence relation}
+
+Given two functions $f, g : [0, \infty) \rightarrow [0, \infty) $ we say that $f \simeq g$ if and only if $f \preceq g$ and $g \preceq f$
+
+\end{defi}
+
+It can be shown that given two presentations of the same group G, Dehn functions of those presentations are equivalent with respect to \ref{equivalence relation}. Thus, it is possible to define Dehn function of a group, up to \ref{equivalence relation}. Therefore we can study asymptotic behaviour of Dehn functions of a group. Note that this relation preserves asymptotic behaviour of a function.
+
+Now we show a way in which one can try to solve the word problem. Suppose we have a finite presentation of a group $P = < A \mid R>$, finite subset of natural numbers T, and we have a set $\{ (u_{n}, v_{n}) : n \in T \}$, such that
+
+\[ v_{n}u_{n}^{-1} \equiv \epsilon \quad and \quad | u_{n} | < | v_{n} | \]
+
+and for every word $\epsilon \equiv w \in F_{A}$ we have one of words $\{ v_{n} : n \in T \}$ as subword. Then we can easily solve the word problem - we start with a word w, if it is not empty, we try to find a subword $v_{n}$. If it is present, we can replace it by $u_{n}$ without changing equivalence relation. Thus, we have reduced the problem to a shorter word. If we cannot find a subword, we know w is not equivalent to empty word.
+
+This shifts the problem of the word problem to finding a set of pairs of words. We call such set a Dehn presentation.
+
+We can now prove a simple property of groups admitting Dehn presentation.
+
+\begin{ther}\label{thm:dehn_pres_linear}
+
+Grupy z prezentacją Dehna mają liniową funkcję Dehna.
+
+\end{ther}
+
+\begin{proof}[Dowód \ref{thm:dehn_pres_linear}]
+
+Niech $G \equiv <A \mid R> = P$, gdzie R jest skończoną prezentacją Dehna.
+Pokażemy ograniczenia górne i dolne. Niech w oznacza słowo, iż $w \equiv \epsilon$ w G.
+
+Korzystając z algorytmu Dehna, możemy rozłożyć słowo w na iloczyn co najwyżej $|w|$ relatorów. Zatem $D_{P}(n) \leq n$.
+
+\end{proof}
+
+
+\chapter{Problem słów a przestrzenie hiperboliczne}\label{hyperbolicity}
+
+\section{Wstęp}
+
+W tym rozdziale przedstawimy podstawowe pojęcia z teorii hiperboliczności Gromova. Mogą one nie wydawać się powiązane z teorią grup, ale można je z nią połączyć za pomocą grafów Cayley'a. Zakończymy ten rozdział przytoczeniem lematu, który będzie kluczowy w dowodzie istnienia prezentacji Dehna dla grup hiperbolicznych.
+
+\section{Definicje}
+
+W tej części przez $(X, d)$ będziemy oznaczali przestrzeń metryczną, a przez $\delta$ dodatnią liczbę rzeczywistą.
+
+\begin{defi}\label{Gromov product}
+Produktem Gromova dwóch punktów $y, z \in X$ w stosunku do trzeciego $x \in X$ nazywamy:
+
+\[ (y,z)_{x} \defeq \frac{1}{2} (d(y, x) + d(x, z) - d(y, z)) \]
+\end{defi}
+
+\begin{defi}\label{Hyperbolic space}
+Mówimy, że X jest $\delta-hyperbolic$ wtedy i tylko wtedy, gdy dla każdych $x, y, z, w \in X$
+\[ (x,z)_{w} \geq \min((x,y)_{w}, (y, z)_{w}) \]
+\end{defi}
+
+Zajmując się przestrzeniami hiperbolicznymi, nie będziemy badać izometri na nich, lecz \textit{quasi-isometrie}. Jest to powiązne w pewien sposób z faktem, iż dokładna wartosć stałej $\delta$ nie ma znaczenia dla tej teorii. Zdefiniujemy również \textit{quasi-geodezyjne}
+
+\begin{defi}\label{Quasi-isometries}
+Nazywamy f \emph{quasi-isometrią} z $(X_{1}, d_{1})$ do $(X_{2}, d_{2})$ jeśli istnieją stałe $A \geq 1, B \geq 0, C \geq 0$, zę:
+
+\begin{itemize}
+\item Dla każdych $x, y \in X_{1}$ mamy
+\[ \frac{1}{A} d_{1}(x, y) - B \leq d_{2}(f(x), f(y)) \leq A \cdot d_{1}(x, y) + B \]
+\item Dla każdego $x \in X_{2}$ istnieje punkt $y \in X_{1}$, że
+\[ d_{2}(f(y), x) \leq C \]
+
+\end{itemize}
+\end{defi}
+
+Zauważmy, że to jedyne warunki nałożone na quasi-izometrie. Nie muszą być ciągłe.
+
+\begin{defi}\label{Quasi-geodesic}
+\emph{Quasi-geodezyjna} to quasi-izometryczne włożenie $\mathbb{R}$ w przestrzeń hiperboliczną (X, d).
+\end{defi}
+
+Now we will restrict ourselves to geodesic spaces. Then we can define \textit{local geodesic}
+
+\begin{defi}\label{Local geodesic}
+
+Let $I \defeq [0, 1]$.
+We call $c : [a,b] -> X$ a K-local geodesic if
+
+\[ \forall{s, t \in I} \mid s - t \mid \  \leq K \implies d(c(s), c(t)) = \ \mid s - t \mid \]
+
+\end{defi}
+
+\begin{defi}\label{Bisize of traingle}
+
+Dla trójkąta T = ABC, mamy na boku AB punkt O, że odległość z O do AC jest równa odległości do BC. Taki punkt to bisector, zdefiniujmy jego wielkość jako b(O). Taki punkt istnieje z ciągłości różnicy odległości.
+
+Bisizem trójkąta T = ABC nazwiemy maximum b(O) dla wszystkich bisektorów O.
+
+\end{defi}
+
+\begin{defi}\label{Thickness of polygon}
+
+Grubością wielokąta nazwiemy infimum po wartościach t spełniających:
+
+Dla każdego boku p i każdego punktu $O \in p$, istnieje inny bok $r \neq p$, że $d(O, r) \leq t$
+
+\end{defi}
+
+\section{Podstawowe twierdzenia geometrii hiperbolicznej}
+
+Będziemy uzywać następującego twierdzenia \cite{bib:hyperbolicity_and_thw_word_problem}[6.1]:
+
+\begin{ther}\label{thm:local_geodesic_is_quasi}
+
+Jeśli X jest $\delta - hiperboliczna$, wtedy każda $k-lokalna$ geodezyjna dla $k > 8\delta$ jest $(\lambda, \eta)\  quasi-geodezyjna$, gdzie $\lambda$ i $\eta$ zależą tylko od $\delta$.
+
+\end{ther}
+
+
+\chapter{Funkcje Dehan grup hiperbolicznych}\label{Main proof}
+
+Posiadamy już wszystkie narzędzia do wykazania, że grupa jest hiperboliczna tylko wtedy gdy ma liniową funkcję Dehna. Zaprezentujemy dowód w dwie strony. Zaczniemy od prostszej implikacji.
+
+\section{Grupy hiperboliczne posiadają prezentację Dehna}
+
+\begin{ther}\label{thm:hiper_linear}
+
+Każda skończenie prezentowalna grupa hiperboliczna posiada prezentację Dehna.
+
+\end{ther}
+
+\begin{proof}[Dowód \ref{thm:hiper_linear}]
+
+Przypomnijmy \ref{thm:dehn_pres_linear}, iż posiadanie prezentacji Dehna implikuje liniowość funkcji Dehna. Będziemy więc dowodzić istnienia prezentacji Dehna dla grup hiperbolicznych. Skorzystamy z Twierdzenia \ref{thm:local_geodesic_is_quasi}. Popatrzmy na graf Cayley'a G - $\Gamma$ jako na przestrzeń hiperboliczną.
+
+Wybieramy $\lambda$ z tego tego twierdzenia oraz zbiór skończony:
+
+\[ \{u \in F(A) : |u| \leq 8 \delta \  max \{1, \lambda \}, \exists v, |v| < |u|, u =_{\Gamma} v  \} \]
+
+Pokażemy, że jest to prezentacja grupy G - dokladniej słowa postaci postaci $vu^{-1}$ dla u iv jak powyżej. Weźmy słowo w, $w =_{\Gamma} \epsilon$. Określna ono pewną ścieżkę $\gamma$ w grafie Cayley'a. Jeśli nie jest to $8 \delta$ - lokalnie geodezyjna, to możemy pewną część ścieżki zastąpić krótszą, tworząc krótsze słowo odpowiadajace ścieżce. Jeśli nie możemy tak zrobić, to na mocy twierdzenia \ref{thm:local_geodesic_is_quasi}, $\gamma$ jest quasi geodezyjną. Zatem możemy napisać:
+
+\[ \frac{|w|}{\lambda} - \eta \leq d_{\Gamma}(\gamma(0), \gamma(l) \]
+
+co po podstawieniu $\gamma(l) = \gamma(0)$, ponieważ mamy pętlę, daje:
+
+\[ |w| \leq \lambda \eta < 8 \lambda \delta \]
+
+co w szczególności oznacza, że w jest w zbiorze zdefiniowanym na początku dowodu.
+
+Zatem dowolne słowo równoważne słowu pustemu można przedstawić za pomocą wybranego zbioru relatorów - czyli jest to prezentacja grupy G.
+
+
+\end{proof}
+
+\section{Grupy z podkwadratową funkcją Dehna są hiperboliczne}
+
+Teraz pokażemy, że gdy funkcja Dehna grupy G jest $o(n^2)$, to G jest hiperboliczna.
+
+\begin{ther}\label{thm:subquadratic_hyperbolic}
+
+Jeśli funkcja Dehna grupy G jest $o(n^2)$, to G jest hiperboliczna, a jej funkcja Dehna liniowa.
+
+\end{ther}
+
+\begin{proof}[Dowód \ref{thm:subquadratic_hyperbolic}]
+
+\begin{lemma}\label{lemma:olshanskii_1}
+
+Przypuśćmy, że mamy trójkąt o szerokości d w X. Wtedy istnieje czworokąt P w X, że jego grubość t jest $\geq d/2$, a obwód $\leq 20t$
+
+\end{lemma}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{lemma}\label{lemma:olshanskii_2}
+
+Przypuśćmy, że w przestrzeni geodezyjnej X mamy trójkąt T o bisizy b, ale w X nie ma trójkąta o grubości $2b$. Wtedy dla pewnego $t \geq b$ w X jest sześciokąt P, że grubość P jest $\geq t$, a obwód $\leq 46t$
+
+\end{lemma}
+
+\begin{proof}
+
+
+\end{proof}
+
+\begin{lemma}\label{lemma:olshanskii_3}
+
+Przypuśćmy, że bisizy trójkątów w przestrzeni geodezyjnej X są nieograniczone. Wtedy dla dowolnego $t_{0} > 0$ istnieje w X sześciokąt P o grubości $t > t_{0}$ i obwodzie $\leq 46t$
+
+\end{lemma}
+
+\begin{proof}
+
+Jeśli X zawiera trójkąty o szerokości d dla dowolnego d, to z \ref{lemma:olshanskii_1} dostajemy tezę, bo możemy sobie przyjąć dwa boki o długości zero i z czworokąta dostać sześciokąt. Jeśli natomiast szerokości trójkątów są ograniczone, to \ref{lemma:olshanskii_2} daje nam tezę.
+
+\end{proof}
+
+\begin{lemma}\label{lemma:olshanskii_4}
+
+Przypuśćmy, że bisizy trójkątów w grafie Cayley'a $\Gamma$ grupy G są nieograniczone. Wtedy dla każdego $t_{0} > 0$ istnieje wielokąt w grafie o grubości $>= t_{0}$, a jego średnica jest $\leq 47t$.
+
+\end{lemma}
+
+\begin{proof}
+
+Z sześciokąta możemy uzyskać wielokąt Q poprzez przesunięcie wierzchołków P do najbliższych wierzchołków grafu Cayley'a. W ten sposób być może zmniejszymy liczbę wierzchołków, gdyż niektóre wierzchołki pokryją się. Możemy oszacować grubość P za pomocą grubości Q:
+
+\[ t(Q) + 1 \geq t(P) \]
+
+gdyż dla punktu z P w odległości t(Q) mamy inny bok Q, więc przesuwając się o co najwyżej jeden jeśli trafiliśmy w ten sam bok P, trafimy w inny bok P. Taka transformacja nie zwiększyła też obwodu otrzymanego wielokąta Q.
+
+Z lematu van Kampena, dla wielokąta Q otrzymujemy diagram $\Delta$. Zauważmy, że mamy
+\[ t(\Delta) \geq t(Q) - \frac{1}{2} \]
+
+gdyż z każdego punktu Q do pewnego wierzchołka $\Delta$ mamy odległość co najwyżej $\frac{1}{2}$, a od tego punktu w odległości $t(\Delta)$ punkt z innego boku - szacuje to $t(Q)$ z góry.
+
+Zatem dla $t_{0} \geq 69$:
+
+\[ |\partial \Delta| = \sum q_{i} \leq \sum p_{i} \leq 46t(P) \leq 46(t(\Delta) + \frac{3}{2}) \leq 47 t(\Delta) \]
+
+\end{proof}
+
+\begin{lemma}\label{lemma:olshanskii_5}
+
+Niech $t > 0$ będzie grubością diagramu $\Delta$ z brzegiem $p=p_{1}...p_{n}$ dla ustalonej skończonej prezentacji $\{ r_{i} \}$. Przez M oznaczmy $max(|r_{1}|, ..., |r_{n}|)$, wtedy ilość ścian m jest taka, że
+\[ m \geq \frac{4t^2}{M^3} \]
+
+\end{lemma}
+
+\begin{proof}
+
+Z definicji grubości, możemy wybrać sobie punkt O leżący na boku p brzegu diagramu $\Delta$, że dla każdego wierzchołka  A, $ A \in \partial \Delta$, $d(A, O) \geq t$.
+
+Będziemy definiować kolejne zbiory ściany. Przez $F_{0}$ oznaczymy zbiór ścian diagramu zawierające O. Przez $F_{i}$ będziemy oznaczać zbiór tych ścian, które posiadają punkt wspólny ze ścianą należącą do rodziny $F_{j}$ dla $j < i$ oraz nie należą do żadnej z rodzin $F_{j}$ dla $j < i$.
+
+Można o wybieranych ścianach myśleć jak o poziomach ścian otaczających centralny punkt O. Zdefiniujmy $S_{i} \defeq \cup_{k \leq i} F_{k}$. Zbiory $S_{i}$ są spójne i ograniczone. Popatrzmy na ich brzeg, $z_{i}$. Ponieważ punkt O leży na brzegu diagramu $\Delta$, leży także na brzegu każdego ze zbiorów $S_{i}$. W związku z tym możemy przedstawić
+\[ z_{i} \defeq x_{i} y_{i} \]
+gdzie $x_{i}$ jest najdłuższym fragmentem zawartym w boku p diagramu $\Delta$.
+
+Zauważmy, że dzięki grubości diagramu, do żadnego ze zbiorów $S_{i}$ dla $i \leq 2t /(M)$ nie należą punkty z $\partial \Delta$ oprócz punktów z boku p. Istotnie, dla każdego punktu ze zbioru $F_{i}$ mamy w odległości co najwyżej $M/2$ wierzchołek ze zbioru $F_{i-1}$ - szacujemy z góry połowę obwodu. Zatem dla dowolnego wierzchołka $A \in F_{i}$ mamy $d(A, O) \leq i M / 2$. Ograniczymy się do takich niedużych i.
+
+Udowodnimy dwa proste stwierdzenia:
+
+\begin{itemize}
+
+\item $|x_{i}| \geq 2i$
+\item $y_{i} \cap y_{j} \ = \ \emptyset$ dla $i \neq j$
+
+\end{itemize}
+
+Dla pierwszego z nich zauważmy, że bok p diagramu $\Delta$ zawiera $x_{i}$ i z obu stron mamy zawsze dwa punkty nie należące do $S_{i}$ - należą one do pewnej ściany. Gdyby tak nie było, któryś z tych punktów na obwodzie $\Delta$ musiał należeć do innego boku niż p, co jest sprzeczne z ograniczeniem narzuconym przez grubość. Zatem dla każdego i dodaliśmy przynajmniej dwa wierzchołki z p.
+
+Gdyby $y_{i} \cap y_{j} \neq \emptyset$, to w szczególności byłoby (przypuśćmy $i > j$) $y_{i} \cap y_{i-1} \neq \emptyset$. Oznacza to, że w $F_{i-1}$ jest krawędź, która nie należy do żadnej innej ściany, czyli jest brzegiem $\Delta$. Jest to sprzeczne z ograniczeniem na grubość diagramu, gdyż wybieraliśmy takie i, aby w $S_{i}$ nie było wierzchołków z $\partial \Delta$, które nie należą do boku p.
+
+Z obu tych stwierdzeń możemy wyciągnąć końcowe wnioski. Ponieważ kolejne brzegi $y_{i}$ zbiorów $S_{i}$ są rozłaczne, do każdego z nich możemy przyporządkować przynajmniej $y_{i} / M$ ścian i żadna przypisana ściana się nie powtórzy - każda taka ściana należy zo ziboru $F_{i}$. Ponieważ bok p to geodezyjna, mamy $y_{i} \geq x_{i} \geq 2i$. W związku z tym możemy oszacować z dołu liczbę ścian diagramu:
+
+\[ m \geq \sum_{1 \leq i \leq 2t/M} 2i/M \geq \frac{1}{M} (2t/M) ^2 = \frac{4t^2}{M^3} \]
+
+\end{proof}
+
+Teraz możemy zakończyć dowód twierdzenia. Przypuśćmy, że grupa G nie jest hiperboliczna, a jej funkcja Dehna, $D(n)$ jest $o(n^2)$. Wtedy na mocy \ref{lemma:olshanskii_4} mamy diagram $\Delta$ o grubości t i obwodzie $\leq 47t$, reprezentujący słowo w. Stosujemy \ref{lemma:olshanskii_5}:
+
+\[ D(|w|) \geq m(w) \geq \frac{4t^2}{M^3} \geq \frac{4 | \partial \Delta |^2}{47^2M^3} = \frac{4 |w|^2}{47^2M^3} \]
+
+Co jest sprzeczne z założeniem o $D(n)$. Zatem G jest hiperboliczna.
+
+\end{proof}
+
+\chapter{Zbiór isoperymetryczny}
+
+Naturalne wydaje się pytanie, jakie liczby mogą być wykładnikami funkcji Dehna skończenie prezentowanych grup.
+
+\begin{defi}\label{isoperimetric set}
+
+Definiujemy \textit{zbiór isoperymetryczny} jako:
+
+\[ IP \defeq \{ \alpha : n^{\alpha} \ is \simeq to \ a \ Dehn \ function \} \]
+
+\end{defi}
+
+Pokzaliśmy, że $IP \cap (1, 2) = \emptyset$. Z definicji zbioru \textit{IP} wynika, że jest on podzbiorem $[1, \infty)$. Zauważmy, iż ten zbiór może być conajwyżej przeliczalny, gdyż mamy przeliczalnie wiele skończonych prezentacji grup. Powstaje pytanie, czy zbiór IP ma też inne dziury - okazuje się, że nie, gdyż
+
+\[ \overline{IP} = {1} \cup [2, \infty) \]
+
+
+Dowód tego faktu można znaleźć na przykład tu \cite{bib:geometry_of_word_problem_fin_gen_groups}.
+
+Zbiór isoperymetryczny ma również wiele innych ciekawych własności. Przytaczanie ich dowodu jest poza zakresem tej pracy, ale warto o nich wspomnieć o \cite{bib:isoperimetric_set_turing_machines}:
+
+\begin{itemize}
+
+\item Jeśli $\alpha > 4$, $C \geq 1$ i istnieje maszyna Turinga która oblicza pierwszych m cyfr  $\alpha$ w czasie $\leq C 2^{2^{Cm}}$, to $\alpha \in IP$
+\item Jeśli $\alpha \in IP$, to istnieje maszyna Turinga która oblicza pierwszych m cyfr $\alpha$ w czasie $\leq C2^{2^{2^{Cm}}}$
+
+\end{itemize}
+
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Bibliografia}
+
+\bibitem{bib:subquadratic_isoperimetric_inequality} A. Yu. Ol'Shanskii. \textit{Hyperbolicity of groups with subquadratic isoperimetric inequality}. International Journal of Algebra and Computation, volume 1, issue 3 (1991), DOI: 10.1142/s0218196791000183.
+
+\bibitem{bib:geometry_of_word_problem_fin_gen_groups} Noel Brady, Tim Riley, Hamish Short. \textit{The geometry of the Word Problem for Finitely Generated Groups}. ISBN 978-3-7643-7949-0, Birkhäuser Verlag (2000).
+
+\bibitem{bib:isoperimetric_set_turing_machines} M. Sapir, J-C. Birget, E. Rips. \textit{Isoperimetric and isodiametric functions of groups}. Annals of Mathematics (2), vol 156 (2002), no. 2, pp. 345–466.
+
+\bibitem{bib:hyperbolicity_and_thw_word_problem} George Hyun. \textit{Hyperbolicity and the word problem}. https://math.uchicago.edu/~may/REU2013/REUPapers/Hyun.pdf
+
+\end{thebibliography}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% coding: latin-2
+%%% End:
